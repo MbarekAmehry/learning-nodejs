@@ -10,6 +10,11 @@ app.set('views', 'src/views');
 // Listen for requests
 app.listen(3000);
 
+app.use((req, res, next) => {
+  console.log('Method:', req.method);
+  next(); // this tells express to move on to the new middleware
+});
+
 app.get('/', (req, res) => {
   const blogs = [
     {
@@ -26,6 +31,11 @@ app.get('/', (req, res) => {
     },
   ];
   res.render('index', { name: 'Mbarek', blogs });
+});
+
+app.use((req, res, next) => {
+  console.log('in the next middleware');
+  next(); // this tells express to move on to the new middleware
 });
 
 app.get('/about', (req, res) => {
