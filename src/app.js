@@ -2,10 +2,10 @@ const express = require('express');
 var morgan = require('morgan');
 const mongoose = require('mongoose');
 const blogRoutes = require('../routes/blog');
+const mongoSecret = require('./secret');
 
 // connect to MongoDB
-const dbURI =
-  'mongodb+srv://mbarek:express123@learningexpress.lbthj.mongodb.net/firstExpress-tuts?retryWrites=true&w=majority';
+const dbURI = mongoSecret;
 
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
