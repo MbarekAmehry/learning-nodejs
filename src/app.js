@@ -1,20 +1,28 @@
 const express = require('express');
 var morgan = require('morgan');
+const mongoose = require('mongoose');
 
 // connect to MongoDB
 const dbURI =
-  'mongodb+srv://mbarek:<express123>@learningexpress.lbthj.mongodb.net/test';
+  'mongodb+srv://mbarek:express123@learningexpress.lbthj.mongodb.net/firstExpress-tuts?retryWrites=true&w=majority';
+
+mongoose
+  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((result) => {
+    console.log('contected to db');
+    // Listen for requests after db connection has been made.
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 const app = express();
 
 // register view engine
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
 
-// Listen for requests
-app.listen(3000);
-
 // Middleware and static files
-
 app.use(morgan('dev'));
 app.use(express.static('public'));
 app.use((req, res, next) => {
