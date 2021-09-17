@@ -63,6 +63,7 @@ app.set('views', 'src/views');
 
 // Middleware and static files
 app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // **** Basic routes ****
@@ -79,6 +80,18 @@ app.get('/blogs', (req, res) => {
   Blog.find().then((result) => {
     res.render('index', { name: 'Mbarek', blogs: result });
   });
+});
+
+app.post('/blogs', (req, res) => {
+  const blog = new Blog(req.body);
+  blog
+    .save()
+    .then((result) => {
+      res.redirect('/');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.get('/blog/create', (req, res) => {
