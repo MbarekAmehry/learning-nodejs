@@ -1,6 +1,9 @@
 const express = require('express');
 var morgan = require('morgan');
 
+// connect to MongoDB
+const dbURI =
+  'mongodb+srv://mbarek:<express123>@learningexpress.lbthj.mongodb.net/test';
 const app = express();
 
 // register view engine
