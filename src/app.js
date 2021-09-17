@@ -1,6 +1,7 @@
 const express = require('express');
 var morgan = require('morgan');
 const mongoose = require('mongoose');
+const Blog = require('../models/blogs');
 
 // connect to MongoDB
 const dbURI =
@@ -22,13 +23,47 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
 
+// Mongoose and mongo sandbox routes
+app.get('/add-blog', (req, res) => {
+  const blog = new Blog({
+    title: 'my Second blog post',
+    snippet: 'On my way to be FullStack',
+    body: 'The process of learning Nodejs and Express is REALLY FUN!!',
+  });
+
+  blog
+    .save()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get('/all-blogs', (req, res) => {
+  Blog.find()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get('/single-blog', (req, res) => {
+  Blog.findById('6144c1a5e4f405c82f6e7632')
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // Middleware and static files
 app.use(morgan('dev'));
 app.use(express.static('public'));
-app.use((req, res, next) => {
-  console.log('Method:', req.method);
-  next(); // this tells express to move on to the new middleware
-});
 
 app.get('/', (req, res) => {
   const blogs = [
